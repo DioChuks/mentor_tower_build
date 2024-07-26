@@ -4,7 +4,7 @@
   "description": "Backend services for Mentor Tower",
   "main": "./",
   "scripts": {
-    "start": "ls && node src/index.js",
+    "start": "ls && node index.js",
     "dev": "nodemon api/index.ts",
     "watch": "ts-node-dev --files --respawn --inspect -r tsconfig-paths/register ./api",
     "cluster": "pm2 start api/index.ts -i max",
