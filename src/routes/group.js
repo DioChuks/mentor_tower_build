@@ -120,87 +120,90 @@ router.put('/:id', GroupController.updateGroup)
 
 /**
  * @swagger
- * /groups/{id}:
- *   delete:
- *     summary: Delete a group by ID
- *     tags: [Groups]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: Group ID
- *     responses:
- *       200:
- *         description: Group deleted successfully
- *       404:
- *         description: Group not found
- *       500:
- *         description: Some server error
+ * paths:
+ *  /groups/{id}:
+ *    delete:
+ *      summary: Delete a group by ID
+ *      tags: [Groups]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Group ID
+ *      responses:
+ *        200:
+ *          description: Group deleted successfully
+ *        404:
+ *          description: Group not found
+ *        500:
+ *          description: Some server error
  */
 
 router.delete('/:id', GroupController.deleteGroup)
 
 /**
  * @swagger
- * /groups/{id}/members:
- *   post:
- *     summary: Add a member to a group
- *     tags: [Groups]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: Group ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               user:
- *                 type: string
- *     responses:
- *       200:
- *         description: Member added successfully
- *       404:
- *         description: Group not found
- *       500:
- *         description: Some server error
+ * paths:
+ *  /groups/{id}/members:
+ *    post:
+ *      summary: Add a member to a group
+ *      tags: [Groups]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Group ID
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                user:
+ *                  type: string
+ *      responses:
+ *        200:
+ *          description: Member added successfully
+ *        404:
+ *          description: Group not found
+ *        500:
+ *          description: Some server error
  */
 
 router.post('/:id/members', GroupController.addMember)
 
 /**
  * @swagger
- * /groups/{groupId}/members/{memberId}:
- *   delete:
- *     summary: Remove a member from a group
- *     tags: [Groups]
- *     parameters:
- *       - in: path
- *         name: groupId
- *         required: true
- *         schema:
- *           type: string
- *         description: Group ID
- *       - in: path
- *         name: memberId
- *         required: true
- *         schema:
- *           type: string
- *         description: Member ID
- *     responses:
- *       200:
- *         description: Member removed successfully
- *       404:
- *         description: Group or member not found
- *       500:
- *         description: Some server error
+ * paths:
+ *  /groups/{groupId}/members/{memberId}:
+ *    delete:
+ *      summary: Remove a member from a group
+ *      tags: [Groups]
+ *      parameters:
+ *        - in: path
+ *          name: groupId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Group ID
+ *        - in: path
+ *          name: memberId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Member ID
+ *      responses:
+ *        200:
+ *          description: Member removed successfully
+ *        404:
+ *          description: Group or member not found
+ *        500:
+ *          description: Some server error
  */
 
 router.delete('/:groupId/members/:memberId', GroupController.removeMember)

@@ -80,7 +80,8 @@ const swaggerDefinition = {
       url: url,
       description: 'Development Server'
     }
-  ]
+  ],
+  basePath: '/v1',
 }
 
 const specs = swaggerJsdoc({
@@ -88,6 +89,11 @@ const specs = swaggerJsdoc({
   apis: ['./routes/*.js', './controllers/*.js']
 })
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
+
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerJsdoc);
+});
 
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
