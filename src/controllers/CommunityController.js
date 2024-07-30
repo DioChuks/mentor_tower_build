@@ -1,13 +1,13 @@
 const catchAsync = require('../utils/catchAsync')
-const CommunityService = require('../services/CommunityService')
+const PostService = require('../services/PostService')
 const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
-const communityService = new CommunityService();
+const postService = new PostService();
 
 const createCommunityPost = async (req, res, next) => {
   console.log('Request Body:', req.body) // Log the request body
   try {
-    const newCommunityPost = await communityService.createCommunityPost(req.body)
+    const newCommunityPost = await postService.createPost(req.body)
     console.log('Created Community Post:', newCommunityPost) // Log the created community
     res.status(StatusCodes.CREATED).json(newCommunityPost)
   } catch (error) {
@@ -17,7 +17,7 @@ const createCommunityPost = async (req, res, next) => {
 
 const getCommunityPosts = catchAsync(async (_req, res) => {
   try {
-    const communities = await communityService.getCommunityPosts()
+    const communities = await postService.getCommunityPosts()
     res.status(StatusCodes.CREATED).json(communities)
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
@@ -26,7 +26,7 @@ const getCommunityPosts = catchAsync(async (_req, res) => {
 
 const getCommunityPostById = catchAsync(async (req, res) => {
   try {
-    const community = await communityService.getCommunityPostById(req.params.id)
+    const community = await postService.getPostById(req.params.id)
     if (!community) {
       return res.status(StatusCodes.NOT_FOUND).json(ReasonPhrases.NOT_FOUND)
     }
@@ -38,7 +38,7 @@ const getCommunityPostById = catchAsync(async (req, res) => {
 
 const updateCommunityPost = catchAsync(async (req, res) => {
   try {
-    const community = await communityService.updateCommunityPost(
+    const community = await postService.updatePost(
       req.params.id,
       req.body
     )
@@ -53,7 +53,7 @@ const updateCommunityPost = catchAsync(async (req, res) => {
 
 const deleteCommunityPost = catchAsync(async (req, res) => {
   try {
-    const community = await communityService.deleteCommunityPost(req.params.id)
+    const community = await postService.deletePost(req.params.id)
     if (!community) {
       return res.status(StatusCodes.NOT_FOUND).json(ReasonPhrases.NOT_FOUND)
     }
@@ -66,7 +66,7 @@ const deleteCommunityPost = catchAsync(async (req, res) => {
 const likeCommunityPost = async (req, res, next) => {
   try {
     const { id } = req.params
-    const community = await communityService.likeCommPost(id)
+    const community = await postService.likePost(id)
 
     if (!community) {
       return res
@@ -85,7 +85,7 @@ const commentOnCommunityPost = async (req, res, next) => {
     const { id } = req.params
     const { user, comment } = req.body
 
-    const community = await communityService.commentCommPost(id, user, comment)
+    const community = await postService.commentOnPost(id, user, comment)
 
     if (!community) {
       return res

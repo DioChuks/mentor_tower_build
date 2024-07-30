@@ -1,30 +1,37 @@
 const Post = require('../models/Post')
 
-class CommunityService {
-  constructor() {}
-  async createCommunityPost(data) {
+class PostService {
+  async createPost(data) {
     console.log('Data to be saved:', data) // Log the data to be saved
-    const communityPost = new Post(data)
-    return communityPost.save()
+    const post = new Post(data)
+    return post.save()
   }
 
   async getCommunityPosts() {
     return Post.find({ type: 'community' }).exec()
   }
 
-  async getCommunityPostById(id) {
+  async getLibraryPosts() {
+    return Post.find({ type: 'library' }).exec()
+  }
+
+  async getGroupPosts() {
+    return Post.find({ type: 'group' }).exec()
+  }
+
+  async getPostById(id) {
     return Post.findById(id).exec()
   }
 
-  async updateCommunityPost(id, data) {
+  async updatePost(id, data) {
     return Post.findByIdAndUpdate(id, data, { new: true }).exec()
   }
 
-  async deleteCommunityPost(id) {
+  async deletePost(id) {
     return Post.findByIdAndDelete(id).exec()
   }
 
-  async likeCommPost(id) {
+  async likePost(id) {
     return Post.findByIdAndUpdate(
       id,
       { $inc: { likes: 1 } },
@@ -32,7 +39,7 @@ class CommunityService {
     ).exec()
   }
 
-  async commentCommPost(id, user, comment) {
+  async commentOnPost(id, user, comment) {
     return Post.findByIdAndUpdate(
       id,
       { $push: { comments: { user, comment } } },
@@ -41,4 +48,4 @@ class CommunityService {
   }
 }
 
-module.exports = CommunityService;
+module.exports = PostService;
