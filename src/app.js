@@ -4,7 +4,7 @@ const helmet = require('helmet')
 const passport = require('passport')
 require('dotenv').config()
 const router = require('./routes/auths')
-const commPostRouter = require('./routes/community')
+const commPostRouter = require('./routes/post')
 const groupRouter = require('./routes/group')
 const jobRouter = require('./routes/job')
 const courseRouter = require('./routes/course')
@@ -21,7 +21,7 @@ const swaggerUi = require('swagger-ui-express')
 const env = process.env.NODE_ENV
 let url
 if (env == 'production') {
-  url = 'https://api.mentortower.ng'
+  url = 'https://mentor_tower_build.onrender.com'
 } else {
   url = 'http://localhost:8000'
 }
@@ -33,7 +33,7 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler)
 }
 
-const whitelist = ['http://localhost:3003', 'http://localhost:8000']
+const whitelist = ['http://mentor-tower-mobile.test', 'http://localhost:8000']
 const corsOption = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -85,7 +85,7 @@ const swaggerDefinition = {
 
 const specs = swaggerJsdoc({
   swaggerDefinition,
-  apis: ['packages/components.yaml', 'dist/routes/*.js']
+  apis: ['./routes/*.js', './controllers/*.js']
 })
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
 
