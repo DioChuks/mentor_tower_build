@@ -87,7 +87,7 @@ const specs = swaggerJsdoc({
   swaggerDefinition,
   apis: ['./routes/*.js', './controllers/*.js']
 })
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }))
 
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
