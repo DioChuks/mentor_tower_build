@@ -92,7 +92,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true })
 
 app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerJsdoc);
+  res.send(specs);
 });
 
 // send back a 404 error for any unknown api request
