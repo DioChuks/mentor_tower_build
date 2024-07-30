@@ -11,8 +11,7 @@ const CourseSchema = new Schema(
       required: false
     },
     image: {
-      type: [String],
-      enum: jobTypes,
+      type: String,
       required: true
     },
     price: {
