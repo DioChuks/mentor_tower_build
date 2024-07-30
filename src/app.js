@@ -21,7 +21,7 @@ const swaggerUi = require('swagger-ui-express')
 const env = process.env.NODE_ENV
 let url
 if (env == 'production') {
-  url = 'https://mentor_tower_build.onrender.com'
+  url = 'https://mentor-tower-build.onrender.com'
 } else {
   url = 'http://localhost:8000'
 }
