@@ -1,32 +1,32 @@
 const { Router } = require('express')
 const validate = require('../validations/validate/object')
 const { GateRoute } = require('../middlewares/auth')
-const validateCommunityPost = require('../validations/validate/post')
-const { commentSchema, updateCommPost } = require('../validations/community')
+const validatePost = require('../validations/validate/post')
+const { commentSchema, updatePost } = require('../validations/post')
 const {
-  createCommunityPost,
+  createNewPost,
   getCommunityPosts,
-  getCommunityPostById,
-  updateCommunityPost,
-  deleteCommunityPost,
-  likeCommunityPost,
-  commentOnCommunityPost
+  getOnePostById,
+  updateOnePost,
+  deleteOnePost,
+  likeOnePost,
+  commentOnOnePost
 } = require('../controllers/PostController')
 
-const commPostRouter = Router()
+const postRouter = Router()
 
-commPostRouter.use(GateRoute)
+postRouter.use(GateRoute)
 
-commPostRouter.post('/', validateCommunityPost, createCommunityPost)
-commPostRouter.get('/', getCommunityPosts)
-commPostRouter.get('/post/:id', getCommunityPostById)
-commPostRouter.patch('/post/:id', validate(updateCommPost), updateCommunityPost)
-commPostRouter.delete('/post/:id', deleteCommunityPost)
+postRouter.post('/', validatePost, createNewPost)
+postRouter.get('/', getCommunityPosts)
+postRouter.get('/post/:id', getOnePostById)
+postRouter.patch('/post/:id', validate(updatePost), updateOnePost)
+postRouter.delete('/post/:id', deleteOnePost)
 
-commPostRouter.post('/:id/like', likeCommunityPost)
-commPostRouter.post('/:id/comment', validate(commentSchema), commentOnCommunityPost)
+postRouter.post('/:id/like', likeOnePost)
+postRouter.post('/:id/comment', validate(commentSchema), commentOnOnePost)
 
-module.exports = commPostRouter
+module.exports = postRouter
 
 
 

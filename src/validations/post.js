@@ -1,17 +1,18 @@
 const Joi = require('joi')
 const { postSize } = require('./validate/custom')
 
-const communityBody = {
+const postBody = {
   name: Joi.string().required(),
   tier: Joi.string().required(),
-  content: Joi.string().required().custom(postSize)
+  content: Joi.string().required().custom(postSize),
+  type: Joi.string().required()
 }
 
-const newCommPost = {
-  body: Joi.object().keys(communityBody)
+const newPost = {
+  body: Joi.object().keys(postBody)
 }
 
-const updateCommPost = {
+const updatePost = {
   body: Joi.object().keys({
     content: Joi.string().required()
   })
@@ -25,7 +26,7 @@ const commentSchema = {
 }
 
 module.exports = {
-  newCommPost,
-  updateCommPost,
+  newPost,
+  updatePost,
   commentSchema
 }

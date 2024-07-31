@@ -21,13 +21,13 @@ const upload = multer({
   }
 }).single('content')
 
-const validateCommunityPost = (req, res, next) => {
+const validatePost = (req, res, next) => {
   upload(req, res, err => {
     if (err) {
       return next(err)
     }
 
-    const { name, tier } = req.body
+    const { name, tier, type } = req.body
 
     // Validate name
     if (!name || typeof name !== 'string') {
@@ -35,6 +35,17 @@ const validateCommunityPost = (req, res, next) => {
         new ApiError(
           StatusCodes.BAD_REQUEST,
           'Name is required and must be a string'
+        )
+      )
+    }
+
+    const postTypes = ['community', 'library', 'group']
+
+    if (!postTypes.includes(type)) {
+      return next(
+        new ApiError(
+          StatusCodes.BAD_REQUEST,
+          "type is required and must be a string of either 'community', 'library', 'group'."
         )
       )
     }
@@ -67,4 +78,4 @@ const validateCommunityPost = (req, res, next) => {
   })
 }
 
-module.exports = validateCommunityPost
+module.exports = validatePost

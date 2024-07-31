@@ -54,10 +54,10 @@ const postService = new PostService();
 
 /**
  * @swagger
- * /community:
+ * /post:
  *   post:
- *     summary: Create a new community post
- *     tags: [Communities]
+ *     summary: Create a new type of post
+ *     tags: [Posts]
  *     requestBody:
  *       required: true
  *       content:
@@ -71,12 +71,12 @@ const postService = new PostService();
  *         description: Some server error
  */
 
-const createCommunityPost = async (req, res, next) => {
+const createNewPost = async (req, res, next) => {
   console.log('Request Body:', req.body) // Log the request body
   try {
-    const newCommunityPost = await postService.createPost(req.body)
-    console.log('Created Community Post:', newCommunityPost) // Log the created community
-    res.status(StatusCodes.CREATED).json(newCommunityPost)
+    const newPost = await postService.createPost(req.body)
+    console.log('Created New Post:', newPost) // Log the created post
+    res.status(StatusCodes.CREATED).json(newPost)
   } catch (error) {
     next(error)
   }
@@ -86,8 +86,8 @@ const createCommunityPost = async (req, res, next) => {
  * @swagger
  * /community:
  *   get:
- *     summary: Get all community posts
- *     tags: [Communities]
+ *     summary: Get all type posts
+ *     tags: [Posts]
  *     responses:
  *       200:
  *         description: List of community posts
@@ -136,7 +136,7 @@ const getCommunityPosts = catchAsync(async (_req, res) => {
  *         description: Some server error
  */
 
-const getCommunityPostById = catchAsync(async (req, res) => {
+const getOnePostById = catchAsync(async (req, res) => {
   try {
     const community = await postService.getPostById(req.params.id)
     if (!community) {
@@ -176,7 +176,7 @@ const getCommunityPostById = catchAsync(async (req, res) => {
  *         description: Some server error
  */
 
-const updateCommunityPost = catchAsync(async (req, res) => {
+const updateOnePost = catchAsync(async (req, res) => {
   try {
     const community = await postService.updatePost(
       req.params.id,
@@ -213,7 +213,7 @@ const updateCommunityPost = catchAsync(async (req, res) => {
  *         description: Some server error
  */
 
-const deleteCommunityPost = catchAsync(async (req, res) => {
+const deleteOnePost = catchAsync(async (req, res) => {
   try {
     const community = await postService.deletePost(req.params.id)
     if (!community) {
@@ -247,7 +247,7 @@ const deleteCommunityPost = catchAsync(async (req, res) => {
  *         description: Some server error
  */
 
-const likeCommunityPost = async (req, res, next) => {
+const likeOnePost = async (req, res, next) => {
   try {
     const { id } = req.params
     const community = await postService.likePost(id)
@@ -297,7 +297,7 @@ const likeCommunityPost = async (req, res, next) => {
  *         description: Some server error
  */
 
-const commentOnCommunityPost = async (req, res, next) => {
+const commentOnOnePost = async (req, res, next) => {
   try {
     const { id } = req.params
     const { user, comment } = req.body
@@ -318,12 +318,12 @@ const commentOnCommunityPost = async (req, res, next) => {
 
 
 module.exports = {
-  createCommunityPost,
+  createNewPost,
   getCommunityPosts,
-  getCommunityPostById,
-  updateCommunityPost,
-  deleteCommunityPost,
-  likeCommunityPost,
-  commentOnCommunityPost
+  getOnePostById,
+  updateOnePost,
+  deleteOnePost,
+  likeOnePost,
+  commentOnOnePost
 }
 
