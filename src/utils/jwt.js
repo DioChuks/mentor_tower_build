@@ -19,4 +19,11 @@ class jwtError extends jwt.JsonWebTokenError {
   }
 }
 
-module.exports = { jwtError, jwtVerify, jwtSign }
+class tokenError extends jwt.TokenExpiredError {
+    constructor(message) {
+        super(message)
+        this.name = 'tokenError'
+    }
+}
+
+module.exports = { jwtError, jwtVerify, jwtSign, tokenError }

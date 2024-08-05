@@ -2,8 +2,9 @@ const passport = require('passport')
 const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 const ApiError = require('../errors/ApiError')
 const { roleRights } = require('../contracts/roles')
-const { jwtError } = require('../utils/jwt')
+const { jwtError, jwtVerify, tokenError } = require('../utils/jwt')
 const getAccessTokenFromHeaders = require('../utils/headers')
+const User = require('../models/User')
 
 const IsAuth =
   (...requiredRights) =>
@@ -58,13 +59,40 @@ const verifyCallback =
   }
 
 const GateRoute = async (req, res, next) => {
-  const { accessToken } = getAccessTokenFromHeaders(req.headers)
+  try {
+    const { accessToken } = getAccessTokenFromHeaders(req.headers)
 
-  if (!accessToken) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      message: ReasonPhrases.UNAUTHORIZED,
-      status: StatusCodes.UNAUTHORIZED
-    })
+    if (!accessToken) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+        message: ReasonPhrases.UNAUTHORIZED,
+        status: StatusCodes.UNAUTHORIZED
+        })
+    }
+
+    const decoded = jwtVerify({accessToken})
+    const user = await User.findById(decoded.id)
+
+    if (!user) {
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+            message: ReasonPhrases.UNAUTHORIZED,
+            status: StatusCodes.UNAUTHORIZED
+        })
+    }
+
+    req.user = user
+  } catch(err) {
+    if (err instanceof jwtError) {
+        return res.status(StatusCodes.FORBIDDEN).json({
+          message: err.message,
+          status: StatusCodes.FORBIDDEN
+        })
+    }
+    if (err instanceof tokenError) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            message: err.message,
+            status: StatusCodes.BAD_REQUEST
+        })
+    }
   }
 
   return next()

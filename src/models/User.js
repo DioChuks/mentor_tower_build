@@ -52,7 +52,7 @@ const UserSchema = new Schema(
       required: false
     },
     areaOfInterest: {
-      type: String,
+      type: Array,
       required: false
     }
   },

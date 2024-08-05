@@ -2,9 +2,9 @@ const Joi = require('joi')
 const { password } = require('./validate/custom')
 
 const registerBody = {
+  name: Joi.string().required(),
   email: Joi.string().required().email(),
   password: Joi.string().required().custom(password),
-  name: Joi.string().required(),
   role: Joi.string()
 }
 
@@ -52,6 +52,15 @@ const verifyEmail = {
   })
 }
 
+const validateUpdateUserDetails = {
+    name: Joi.string().required(),
+    password: Joi.string().required().custom(password),
+    areaOfInterest: Joi.string().required(),
+    bio: Joi.string().required(),
+    phone: Joi.number().required(),
+    dob: Joi.string(),
+  }
+
 module.exports = {
   register,
   login,
@@ -59,5 +68,6 @@ module.exports = {
   refreshTokens,
   forgotPassword,
   resetPassword,
-  verifyEmail
+  verifyEmail,
+  validateUpdateUserDetails
 }
