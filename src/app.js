@@ -51,9 +51,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(passport.initialize())
 passport.use('jwt', jwtStrategy)
-if (config.env === 'production') {
-  app.use('/v1', authLimiter)
-}
+// if (config.env === 'production') {
+//   app.use('/v1', authLimiter)
+// }
 app.use('/v1', authRouter)
 app.use('/v1/users', userRouter)
 app.use('/v1/posts', postRouter)
