@@ -1,9 +1,9 @@
 const Joi = require('joi')
 
 const userDetails = {
-    name: Joi.string().required(),
+    name: Joi.string(),
     areaOfInterest: Joi.array(),
-    bio: Joi.string().required(),
+    bio: Joi.string(),
     phone: Joi.number(),
     dob: Joi.string(),
 }
