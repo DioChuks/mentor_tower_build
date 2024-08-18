@@ -243,45 +243,6 @@ const deleteOnePost = catchAsync(async (req, res) => {
   }
 })
 
-/**
- * @swagger
- * /community/{id}/like:
- *   post:
- *     summary: Like a community post
- *     tags: [Communities]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: Community post ID
- *     responses:
- *       200:
- *         description: Community post liked successfully
- *       404:
- *         description: Community post not found
- *       500:
- *         description: Some server error
- */
-
-const likeOnePost = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const community = await postService.likePost(id)
-
-    if (!community) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ message: 'Community post not found' })
-    }
-
-    res.status(StatusCodes.OK).json(community)
-  } catch (error) {
-    next(error)
-  }
-}
-
 // toggle like or not on a post
 const likeOrUnlikePost = catchAsync(async (req, res) => {
     const { id } = req.params
@@ -297,40 +258,7 @@ const likeOrUnlikePost = catchAsync(async (req, res) => {
     })
 })
 
-/**
- * @swagger
- * /community/{id}/comment:
- *   post:
- *     summary: Comment on a community post
- *     tags: [Communities]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: Community post ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               user:
- *                 type: string
- *               comment:
- *                 type: string
- *     responses:
- *       200:
- *         description: Comment added successfully
- *       404:
- *         description: Community post not found
- *       500:
- *         description: Some server error
- */
-
-const commentOnOnePost = async (req, res, next) => {
+const commentOnOnePost = catchAsync(async(req, res) => {
   try {
     const { id } = req.params
     const { user, comment } = req.body
@@ -345,9 +273,20 @@ const commentOnOnePost = async (req, res, next) => {
 
     res.status(StatusCodes.OK).json(community)
   } catch (error) {
-    next(error)
+    res.status(StatusCodes.BAD_REQUEST).json(error)
   }
-}
+})
+
+const getCommentsForPost = catchAsync(async(req, res) => {
+    try {
+        const { id } = req.params
+        const { page = 1, limit = 10 } = req.query
+        const comments = await postService.getCommentsForPost(id, parseInt(page), parseInt(limit))
+        res.status(StatusCodes.OK).json(comments)
+    } catch (error) {
+        res.status(StatusCodes.BAD_REQUEST).json(error)
+    }
+})
 
 
 module.exports = {
@@ -358,7 +297,7 @@ module.exports = {
   getOnePostById,
   updateOnePost,
   deleteOnePost,
-  likeOnePost,
   likeOrUnlikePost,
-  commentOnOnePost
+  commentOnOnePost,
+  getCommentsForPost
 }
