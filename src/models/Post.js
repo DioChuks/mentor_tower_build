@@ -33,10 +33,7 @@ const PostSchema = new Schema(
       type: String,
       required: true
     },
-    likes: {
-      type: Number,
-      default: 0
-    },
+    likes: [{ type: Types.ObjectId, ref: 'User' }],
     comments: [CommentSchema],
     no_of_tagged: {
       type: Number,

@@ -39,6 +39,31 @@ class PostService {
     ).exec()
   }
 
+  async toggleLikePost(postId, userId) {
+    const post = await Post.findById(postId)
+    if (!post) {
+      throw new Error()
+    }
+
+    const isLiked = post.likes.includes(userId)
+
+    if (isLiked) {
+      // Unlike the post
+      post.likes.pull(userId)
+    } else {
+      // Like the post
+      post.likes.push(userId)
+    }
+
+    await post.save()
+
+    return {
+      post,
+      isLiked: !isLiked,
+      totalLikes: post.likes.length
+    }
+  }
+
   async commentOnPost(id, user, comment) {
     return Post.findByIdAndUpdate(
       id,

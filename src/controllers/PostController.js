@@ -110,6 +110,24 @@ const getCommunityPosts = catchAsync(async (_req, res) => {
   }
 })
 
+const getLibraryPosts = catchAsync(async (_req, res) => {
+  try {
+    const libraries = await postService.getLibraryPosts()
+    res.status(StatusCodes.CREATED).json(libraries)
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+  }
+})
+
+const getGroupPosts = catchAsync(async (_req, res) => {
+  try {
+    const groups = await postService.getGroupPosts()
+    res.status(StatusCodes.CREATED).json(groups)
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+  }
+})
+
 /**
  * @swagger
  * /community/post/{id}:
@@ -264,6 +282,21 @@ const likeOnePost = async (req, res, next) => {
   }
 }
 
+// toggle like or not on a post
+const likeOrUnlikePost = catchAsync(async (req, res) => {
+    const { id } = req.params
+    const userId = req.user.id
+
+    const result = await toggleLikePost(id, userId)
+
+    res.status(200).json({
+        message: result.isLiked ? 'Post liked' : 'Post unliked',
+        post: result.post,
+        isLiked: result.isLiked,
+        totalLikes: result.totalLikes
+    })
+})
+
 /**
  * @swagger
  * /community/{id}/comment:
@@ -320,10 +353,12 @@ const commentOnOnePost = async (req, res, next) => {
 module.exports = {
   createNewPost,
   getCommunityPosts,
+  getLibraryPosts,
+  getGroupPosts,
   getOnePostById,
   updateOnePost,
   deleteOnePost,
   likeOnePost,
+  likeOrUnlikePost,
   commentOnOnePost
 }
-

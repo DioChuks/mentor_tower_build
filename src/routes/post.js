@@ -6,10 +6,13 @@ const { commentSchema, updatePost } = require('../validations/post')
 const {
   createNewPost,
   getCommunityPosts,
+  getLibraryPosts,
+  getGroupPosts,
   getOnePostById,
   updateOnePost,
   deleteOnePost,
   likeOnePost,
+  likeOrUnlikePost,
   commentOnOnePost
 } = require('../controllers/PostController')
 
@@ -19,10 +22,13 @@ postRouter.use(GateRoute)
 
 postRouter.post('/', validatePost, createNewPost)
 postRouter.get('/', getCommunityPosts)
+postRouter.get('/library', getLibraryPosts)
+postRouter.get('/group', getGroupPosts)
 postRouter.get('/post/:id', getOnePostById)
 postRouter.patch('/post/:id', validate(updatePost), updateOnePost)
 postRouter.delete('/post/:id', deleteOnePost)
 
+postRouter.post('/:id/toggle-like', likeOrUnlikePost)
 postRouter.post('/:id/like', likeOnePost)
 postRouter.post('/:id/comment', validate(commentSchema), commentOnOnePost)
 
