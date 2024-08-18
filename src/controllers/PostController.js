@@ -71,16 +71,16 @@ const postService = new PostService();
  *         description: Some server error
  */
 
-const createNewPost = async (req, res, next) => {
-  console.log('Request Body:', req.body) // Log the request body
+const createNewPost = catchAsync(async (_req, res) => {
+  console.log('Request Body:', _req.body) // Log the request body
   try {
-    const newPost = await postService.createPost(req.body)
+    const newPost = await postService.createPost(_req.body)
     console.log('Created New Post:', newPost) // Log the created post
     res.status(StatusCodes.CREATED).json(newPost)
   } catch (error) {
-    next(error)
+    res.status(StatusCodes.BAD_REQUEST).json(error.message)
   }
-}
+})
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ const createNewPost = async (req, res, next) => {
 const getCommunityPosts = catchAsync(async (_req, res) => {
   try {
     const communities = await postService.getCommunityPosts()
-    res.status(StatusCodes.CREATED).json(communities)
+    res.status(StatusCodes.OK).json(communities)
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
   }
@@ -113,7 +113,7 @@ const getCommunityPosts = catchAsync(async (_req, res) => {
 const getLibraryPosts = catchAsync(async (_req, res) => {
   try {
     const libraries = await postService.getLibraryPosts()
-    res.status(StatusCodes.CREATED).json(libraries)
+    res.status(StatusCodes.OK).json(libraries)
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
   }
@@ -122,7 +122,7 @@ const getLibraryPosts = catchAsync(async (_req, res) => {
 const getGroupPosts = catchAsync(async (_req, res) => {
   try {
     const groups = await postService.getGroupPosts()
-    res.status(StatusCodes.CREATED).json(groups)
+    res.status(StatusCodes.OK).json(groups)
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
   }

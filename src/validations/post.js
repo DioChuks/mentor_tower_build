@@ -2,8 +2,7 @@ const Joi = require('joi')
 const { postSize } = require('./validate/custom')
 
 const postBody = {
-  name: Joi.string().required(),
-  tier: Joi.string().required(),
+  user: Joi.string().required(),
   content: Joi.string().required().custom(postSize),
   type: Joi.string().required()
 }

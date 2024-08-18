@@ -3,13 +3,13 @@ const { Schema, model, Types } = require('mongoose')
 const CommentSchema = new Schema(
   {
     user: {
-      type: Types.ObjectId,
-      ref: 'User',
-      required: true
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     comment: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     }
   },
   { timestamps: true }
@@ -17,27 +17,24 @@ const CommentSchema = new Schema(
 
 const PostSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true
-    },
-    tier: {
-      type: String,
-      required: false
+    user: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     content: {
-      type: String,
-      required: false
+        type: String,
+        required: false
     },
     type: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     likes: [{ type: Types.ObjectId, ref: 'User' }],
     comments: [CommentSchema],
     no_of_tagged: {
-      type: Number,
-      required: false
+        type: Number,
+        required: false
     }
   },
   { timestamps: true }

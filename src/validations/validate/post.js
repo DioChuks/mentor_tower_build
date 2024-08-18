@@ -27,16 +27,12 @@ const validatePost = (req, res, next) => {
       return next(err)
     }
 
-    const { name, tier, type } = req.body
+    const { user, type, content } = req.body
 
-    // Validate name
-    if (!name || typeof name !== 'string') {
-      return next(
-        new ApiError(
-          StatusCodes.BAD_REQUEST,
-          'Name is required and must be a string'
+    if (!user) {
+        return next(
+          new ApiError(StatusCodes.BAD_REQUEST, 'Property user is required and value must be of the User ID.')
         )
-      )
     }
 
     const postTypes = ['community', 'library', 'group']
@@ -50,25 +46,12 @@ const validatePost = (req, res, next) => {
       )
     }
 
-    // Validate tier
-    if (!tier || typeof tier !== 'string') {
+    // Validate post_content: it should be a string
+    if (!content || typeof content !== 'string') {
       return next(
         new ApiError(
           StatusCodes.BAD_REQUEST,
-          'Tier is required and must be a string'
-        )
-      )
-    }
-
-    // Validate post_content: it should be either a string or a file
-    if (
-      !req.file &&
-      (!req.body.content || typeof req.body.content !== 'string')
-    ) {
-      return next(
-        new ApiError(
-          StatusCodes.BAD_REQUEST,
-          'Post content is required and must be a string or a file'
+          'Post content is required and must be a string'
         )
       )
     }

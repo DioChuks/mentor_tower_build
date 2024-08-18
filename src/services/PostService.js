@@ -2,21 +2,29 @@ const Post = require('../models/Post')
 
 class PostService {
   async createPost(data) {
-    console.log('Data to be saved:', data) // Log the data to be saved
-    const post = new Post(data)
+    const { user, content, type } = data
+
+    const post = new Post({
+        user,
+        content,
+        type,
+        likes: [],
+        comments: []
+    })
+
     return post.save()
   }
 
   async getCommunityPosts() {
-    return Post.find({ type: 'community' }).exec()
+    return Post.find({ type: 'community' }).populate('user', 'name tier role').exec()
   }
 
   async getLibraryPosts() {
-    return Post.find({ type: 'library' }).exec()
+    return Post.find({ type: 'library' }).populate('user', 'name tier role').exec()
   }
 
   async getGroupPosts() {
-    return Post.find({ type: 'group' }).exec()
+    return Post.find({ type: 'group' }).populate('user', 'name tier role').exec()
   }
 
   async getPostById(id) {

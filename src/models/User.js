@@ -49,6 +49,7 @@ const UserSchema = new Schema(
     },
     tier: {
       type: String,
+      default: '0',
       required: false
     },
     areaOfInterest: {
