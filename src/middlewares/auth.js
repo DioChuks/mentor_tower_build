@@ -64,17 +64,18 @@ const GateRoute = async (req, res, next) => {
 
     if (!accessToken) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
-        message: ReasonPhrases.UNAUTHORIZED,
+        message: 'No token provided!',
         status: StatusCodes.UNAUTHORIZED
         })
     }
 
     const decoded = jwtVerify({accessToken})
-    const user = await User.findById(decoded.id)
+    const user = await User.findById(decoded.sub)
+    console.log("user: "+user);
 
     if (!user) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
-            message: ReasonPhrases.UNAUTHORIZED,
+            message: 'No tokenable id!',
             status: StatusCodes.UNAUTHORIZED
         })
     }
