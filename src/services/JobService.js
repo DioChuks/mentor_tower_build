@@ -7,19 +7,19 @@ class JobService {
   }
 
   async getJobs() {
-    return Job.find().exec()
+    return Job.find().populate('user', 'name tier role').exec()
   }
 
   async getJobsByPoster(id) {
-    return Job.find({ user: id }).exec()
+    return Job.find({ user: id }).populate('user', 'name tier role').exec()
   }
 
   async getJobById(id) {
-    return Job.findById(id).exec()
+    return Job.findById(id).populate('user', 'name tier role').exec()
   }
 
   async updateJob(id, data) {
-    return Job.findByIdAndUpdate(id, data, { new: true }).exec()
+    return Job.findByIdAndUpdate(id, data, { new: true }).populate('user', 'name tier role').exec()
   }
 
   async deleteJob(id) {

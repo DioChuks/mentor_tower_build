@@ -2,7 +2,7 @@ const { Router } = require('express')
 const validate = require('../validations/validate/object')
 const { GateRoute } = require('../middlewares/auth')
 const validatePost = require('../validations/validate/post')
-const { commentSchema, updatePost } = require('../validations/post')
+const { commentJoi, updatePost } = require('../validations/post')
 const {
   createNewPost,
   getCommunityPosts,
@@ -30,7 +30,7 @@ postRouter.delete('/post/:id', deleteOnePost)
 
 postRouter.post('/:id/toggle-like', likeOrUnlikePost)
 postRouter.post('/:id/like', likeOnePost)
-postRouter.post('/:id/comment', validate(commentSchema), commentOnOnePost)
+postRouter.post('/:id/comment', validate(commentJoi), commentOnOnePost)
 
 module.exports = postRouter
 

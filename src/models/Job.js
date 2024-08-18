@@ -10,7 +10,7 @@ const JobSchema = new Schema(
     },
     image: {
       type: String,
-      required: false // Optional field
+      required: false
     },
     type: {
       type: [String],

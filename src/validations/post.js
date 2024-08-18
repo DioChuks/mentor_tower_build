@@ -17,7 +17,7 @@ const updatePost = {
   })
 }
 
-const commentSchema = {
+const commentJoi = {
   body: Joi.object().keys({
     user: Joi.string().required(),
     comment: Joi.string().required()
@@ -27,5 +27,5 @@ const commentSchema = {
 module.exports = {
   newPost,
   updatePost,
-  commentSchema
+  commentJoi
 }
