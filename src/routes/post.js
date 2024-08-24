@@ -13,7 +13,8 @@ const {
   deleteOnePost,
   likeOrUnlikePost,
   commentOnOnePost,
-  getCommentsForPost
+  getCommentsForPost,
+  getPosts
 } = require('../controllers/PostController')
 
 const postRouter = Router()
@@ -22,6 +23,7 @@ postRouter.use(GateRoute)
 
 postRouter.post('/', validatePost, createNewPost)
 postRouter.get('/', getCommunityPosts)
+postRouter.get('/:type/type', getPosts)
 postRouter.get('/library', getLibraryPosts)
 postRouter.get('/group', getGroupPosts)
 postRouter.get('/post/:id', getOnePostById)

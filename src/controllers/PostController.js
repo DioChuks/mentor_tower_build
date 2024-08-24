@@ -101,12 +101,30 @@ const createNewPost = catchAsync(async (_req, res) => {
  *         description: Some server error
  */
 
+const getPosts = catchAsync(async (_req, res) => {
+  try {
+    const { type } = _req.params
+    const postTypes = ['community', 'library', 'group']
+
+    if (!postTypes.includes(type)) {
+        throw new Error("type is required and must be a string of either 'community', 'library', 'group'.")
+    }
+
+    const { page = 1, limit = 10 } = _req.query
+    const communities = await postService.getPosts(type, _req.user._id, page,limit)
+    res.status(StatusCodes.OK).json(communities)
+  } catch (error) {
+    console.error(error)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
+  }
+})
+
 const getCommunityPosts = catchAsync(async (_req, res) => {
   try {
     const communities = await postService.getCommunityPosts()
     res.status(StatusCodes.OK).json(communities)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -115,7 +133,7 @@ const getLibraryPosts = catchAsync(async (_req, res) => {
     const libraries = await postService.getLibraryPosts()
     res.status(StatusCodes.OK).json(libraries)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -124,7 +142,7 @@ const getGroupPosts = catchAsync(async (_req, res) => {
     const groups = await postService.getGroupPosts()
     res.status(StatusCodes.OK).json(groups)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -162,7 +180,7 @@ const getOnePostById = catchAsync(async (req, res) => {
     }
     res.status(StatusCodes.OK).json(community)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -205,7 +223,7 @@ const updateOnePost = catchAsync(async (req, res) => {
     }
     res.status(StatusCodes.OK).json(community)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -239,23 +257,27 @@ const deleteOnePost = catchAsync(async (req, res) => {
     }
     res.status(StatusCodes.OK).json(community)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(ReasonPhrases.BAD_REQUEST)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
 // toggle like or not on a post
 const likeOrUnlikePost = catchAsync(async (req, res) => {
-    const { id } = req.params
-    const userId = req.user.id
+    try {
+        const { id } = req.params
+        const userId = req.user.id
 
-    const result = await toggleLikePost(id, userId)
+        const result = await toggleLikePost(id, userId)
 
-    res.status(200).json({
-        message: result.isLiked ? 'Post liked' : 'Post unliked',
-        post: result.post,
-        isLiked: result.isLiked,
-        totalLikes: result.totalLikes
-    })
+        res.status(200).json({
+            message: result.isLiked ? 'Post liked' : 'Post unliked',
+            post: result.post,
+            isLiked: result.isLiked,
+            totalLikes: result.totalLikes
+        })
+    } catch (error) {
+        res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
+    }
 })
 
 const commentOnOnePost = catchAsync(async(req, res) => {
@@ -273,7 +295,7 @@ const commentOnOnePost = catchAsync(async(req, res) => {
 
     res.status(StatusCodes.OK).json(community)
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json(error)
+    res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
 
@@ -284,13 +306,14 @@ const getCommentsForPost = catchAsync(async(req, res) => {
         const comments = await postService.getCommentsForPost(id, parseInt(page), parseInt(limit))
         res.status(StatusCodes.OK).json(comments)
     } catch (error) {
-        res.status(StatusCodes.BAD_REQUEST).json(error)
+        res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
     }
 })
 
 
 module.exports = {
   createNewPost,
+  getPosts,
   getCommunityPosts,
   getLibraryPosts,
   getGroupPosts,
