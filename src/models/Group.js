@@ -1,16 +1,5 @@
 const { Schema, model, Types } = require('mongoose')
 
-const MemberSchema = new Schema(
-  {
-    user: {
-      type: Types.ObjectId,
-      ref: 'User',
-      required: true
-    }
-  },
-  { timestamps: true }
-)
-
 const GroupSchema = new Schema(
   {
     name: {
@@ -25,10 +14,16 @@ const GroupSchema = new Schema(
       type: String,
       required: true
     },
-    members: [MemberSchema],
+    members: [{type: Types.ObjectId, ref: 'User'}],
     rules: {
       type: String,
       required: false
+    },
+    owner: {
+        type: Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true
     }
   },
   { timestamps: true }

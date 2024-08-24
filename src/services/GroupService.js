@@ -1,9 +1,16 @@
 const Group = require('../models/Group')
 
 class GroupService {
-  async createGroup(data) {
-    const group = new Group(data)
-    return group.save()
+  async createGroup(data, ownerId) {
+    const group = new Group({
+        name: data.name,
+        image: data.image || "",
+        description: data.description,
+        members: data.members || [],
+        rules: data.rules,
+        owner: ownerId
+    });
+    return group.save();
   }
 
   async getGroups() {
@@ -22,20 +29,28 @@ class GroupService {
     return Group.findByIdAndDelete(id).exec()
   }
 
-  async addMember(groupId, member) {
-    return Group.findByIdAndUpdate(
-      groupId,
-      { $push: { members: member } },
-      { new: true }
-    ).exec()
-  }
+  async addMember(groupId, memberId) {
+    // Find the group by ID
+    const group = await Group.findById(groupId);
+
+    // Check if the member is already in the group
+    if (group.members.includes(memberId)) {
+        throw new Error('Member is already in the group');
+    }
+
+    // If not, add the member to the group
+    group.members.push(memberId);
+    await group.save();
+
+    return group;
+}
 
   async removeMember(groupId, memberId) {
     return Group.findByIdAndUpdate(
       groupId,
-      { $pull: { members: { _id: memberId } } },
+      { $pull: { members: memberId } },
       { new: true }
-    ).exec()
+    ).exec();
   }
 }
 

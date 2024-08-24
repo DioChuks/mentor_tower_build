@@ -1,4 +1,5 @@
 const GroupService = require('../services/GroupService');
+const catchAsync = require('../utils/catchAsync')
 
 /**
  * @swagger
@@ -57,14 +58,14 @@ const GroupService = require('../services/GroupService');
  *         description: Some server error
  */
 
-exports.createGroup = async (req, res, next) => {
+exports.createGroup = catchAsync(async (req, res) => {
   try {
-    const group = await GroupService.createGroup(req.body);
+    const group = await GroupService.createGroup(req.body, req.user._id);
     res.status(201).json(group);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
-};
+})
 
 /**
  * @swagger
@@ -90,7 +91,7 @@ exports.getGroups = async (req, res, next) => {
     const groups = await GroupService.getGroups();
     res.status(200).json(groups);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
 };
 
@@ -128,7 +129,7 @@ exports.getGroupById = async (req, res, next) => {
     }
     res.status(200).json(group);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
 };
 
@@ -168,7 +169,7 @@ exports.updateGroup = async (req, res, next) => {
     }
     res.status(200).json(group);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
 };
 
@@ -202,7 +203,7 @@ exports.deleteGroup = async (req, res, next) => {
     }
     res.status(200).json({ message: 'Group deleted successfully' });
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
 };
 
@@ -237,7 +238,7 @@ exports.deleteGroup = async (req, res, next) => {
  *         description: Some server error
  */
 
-exports.addMember = async (req, res, next) => {
+exports.addMember = async(req, res) => {
   try {
     const group = await GroupService.addMember(req.params.id, req.body);
     if (!group) {
@@ -245,9 +246,9 @@ exports.addMember = async (req, res, next) => {
     }
     res.status(200).json(group);
   } catch (error) {
-    next(error);
+    return res.status(400).json({ message: error.message})
   }
-};
+}
 
 /**
  * @swagger
@@ -285,6 +286,6 @@ exports.removeMember = async (req, res, next) => {
     }
     res.status(200).json(group);
   } catch (error) {
-    next(error);
+    res.status(400).json({ message: error.message})
   }
 };
