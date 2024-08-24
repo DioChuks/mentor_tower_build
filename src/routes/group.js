@@ -1,8 +1,9 @@
 const express = require('express')
+const { GateRoute } = require('../middlewares/auth')
 const GroupController = require('../controllers/GroupController')
 
 const router = express.Router()
-
+router.use(GateRoute)
 /**
  * @swagger
  * tags:
