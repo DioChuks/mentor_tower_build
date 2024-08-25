@@ -86,6 +86,15 @@ exports.createGroup = catchAsync(async (req, res) => {
  *         description: Some server error
  */
 
+exports.getGroupsOwned = async (req, res, next) => {
+  try {
+    const groups = await GroupService.getOwnerGroups(req.params.ownerId);
+    res.status(200).json(groups);
+  } catch (error) {
+    res.status(400).json({ message: error.message})
+  }
+};
+
 exports.getGroups = async (req, res, next) => {
   try {
     const groups = await GroupService.getGroups();

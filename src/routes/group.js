@@ -79,6 +79,7 @@ router.get('/', GroupController.getGroups)
  */
 
 router.get('/:id', GroupController.getGroupById)
+router.get('/mine/:ownerId', GroupController.getGroupsOwned)
 
 /**
  * @swagger

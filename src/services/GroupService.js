@@ -17,6 +17,10 @@ class GroupService {
     return Group.find().exec()
   }
 
+  async getOwnerGroups(ownerId) {
+    return Group.find({owner: ownerId}).exec()
+  }
+
   async getGroupById(id) {
     return Group.findById(id).exec()
   }
