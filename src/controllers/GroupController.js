@@ -249,12 +249,14 @@ exports.deleteGroup = async (req, res, next) => {
 
 exports.addMember = async(req, res) => {
   try {
-    const group = await GroupService.addMember(req.params.id, req.body);
+    const {new_member} = req.body;
+    const group = await GroupService.addMember(req.params.id, new_member);
     if (!group) {
       return res.status(404).json({ message: 'Group not found' });
     }
     res.status(200).json(group);
   } catch (error) {
+    console.error('process failed at controller', error)
     return res.status(400).json({ message: error.message})
   }
 }

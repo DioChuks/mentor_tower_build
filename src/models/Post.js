@@ -38,7 +38,10 @@ const PostSchema = new Schema(
       required: true,
       index: true // Index for faster queries
     },
-    likes: [{ type: Types.ObjectId, ref: 'User' }],
+    likes: {
+        type: [{ type: Types.ObjectId, ref: 'User' }],
+        default: []
+    },
     no_of_tagged: {
       type: Number,
       required: false

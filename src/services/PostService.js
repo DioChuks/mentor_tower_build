@@ -88,6 +88,10 @@ class PostService {
             throw new Error('Post not found')
         }
 
+        if (!Array.isArray(post.likes)) {
+            post.likes = [];
+        }
+
         const isLiked = post.likes.includes(userId)
 
         if (isLiked) {

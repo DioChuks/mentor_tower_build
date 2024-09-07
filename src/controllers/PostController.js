@@ -265,7 +265,7 @@ const deleteOnePost = catchAsync(async (req, res) => {
 const likeOrUnlikePost = catchAsync(async (req, res) => {
     try {
         const { id } = req.params
-        const userId = req.user.id
+        const userId = req.user._id
 
         const result = await postService.toggleLikePost(id, userId)
 
@@ -276,7 +276,7 @@ const likeOrUnlikePost = catchAsync(async (req, res) => {
             totalLikes: result.totalLikes
         })
     } catch (error) {
-        console.log('process failed at controller')
+        console.log('process failed at controller', error)
         res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
     }
 })

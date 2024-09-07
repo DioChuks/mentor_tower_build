@@ -37,6 +37,16 @@ class GroupService {
     // Find the group by ID
     const group = await Group.findById(groupId);
 
+    // Check if the group was found
+    if (!group) {
+        throw new Error('Group not found');
+    }
+
+    // Ensure members is an array (this should be taken care of by the schema default)
+    if (!Array.isArray(group.members)) {
+        group.members = [];
+    }
+
     // Check if the member is already in the group
     if (group.members.includes(memberId)) {
         throw new Error('Member is already in the group');

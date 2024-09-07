@@ -14,7 +14,10 @@ const GroupSchema = new Schema(
       type: String,
       required: true
     },
-    members: [{type: Types.ObjectId, ref: 'User'}],
+    members: {
+        type: [{type: Types.ObjectId, ref: 'User'}],
+        default: []
+    },
     rules: {
       type: String,
       required: false

@@ -1,5 +1,7 @@
 const express = require('express')
+const validate = require('../validations/validate/object')
 const { GateRoute } = require('../middlewares/auth')
+const { newGroup, updateGroup, addMember } = require('../validations/group')
 const GroupController = require('../controllers/GroupController')
 
 const router = express.Router()
@@ -39,7 +41,7 @@ router.use(GateRoute)
  *         description: Some server error
  */
 
-router.post('/', GroupController.createGroup)
+router.post('/', validate(newGroup), GroupController.createGroup)
 
 /**
  * @swagger
@@ -118,7 +120,7 @@ router.get('/mine/:ownerId', GroupController.getGroupsOwned)
  *         description: Some server error
  */
 
-router.put('/:id', GroupController.updateGroup)
+router.put('/:id', validate(updateGroup), GroupController.updateGroup)
 
 /**
  * @swagger
@@ -177,7 +179,7 @@ router.delete('/:id', GroupController.deleteGroup)
  *          description: Some server error
  */
 
-router.post('/:id/members', GroupController.addMember)
+router.post('/:id/members', validate(addMember), GroupController.addMember)
 
 /**
  * @swagger
