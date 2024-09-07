@@ -82,6 +82,7 @@ const GateRoute = async (req, res, next) => {
 
     req.user = user
   } catch(err) {
+    console.log('process failed at middleware', err)
     if (err instanceof jwtError) {
         return res.status(StatusCodes.FORBIDDEN).json({
           message: err.message,

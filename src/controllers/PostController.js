@@ -114,7 +114,7 @@ const getPosts = catchAsync(async (_req, res) => {
     const communities = await postService.getPosts(type, _req.user._id, page,limit)
     res.status(StatusCodes.OK).json(communities)
   } catch (error) {
-    console.error(error)
+    console.error('process failed at controller method',error)
     res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
   }
 })
@@ -267,7 +267,7 @@ const likeOrUnlikePost = catchAsync(async (req, res) => {
         const { id } = req.params
         const userId = req.user.id
 
-        const result = await toggleLikePost(id, userId)
+        const result = await postService.toggleLikePost(id, userId)
 
         res.status(200).json({
             message: result.isLiked ? 'Post liked' : 'Post unliked',
@@ -276,6 +276,7 @@ const likeOrUnlikePost = catchAsync(async (req, res) => {
             totalLikes: result.totalLikes
         })
     } catch (error) {
+        console.log('process failed at controller')
         res.status(StatusCodes.BAD_REQUEST).json({message: error.message})
     }
 })
