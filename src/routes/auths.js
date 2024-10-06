@@ -1,46 +1,46 @@
-const express = require('express')
-const validate = require('../validations/validate/object')
-const authValidation = require('../validations/auth')
-const { IsAuth } = require('../middlewares/auth')
+const express = require("express");
+const validate = require("../validations/validate/object");
+const authValidation = require("../validations/auth");
+const { IsAuth } = require("../middlewares/auth");
 
-const authController = require('../controllers/AuthController')
+const authController = require("../controllers/AuthController");
 
-const router = express.Router()
+const router = express.Router();
 
 router.post(
-  '/register',
+  "/register",
   validate(authValidation.register),
   authController.register
-)
-router.post('/login', validate(authValidation.login), authController.login)
-router.post('/logout', validate(authValidation.logout), authController.logout)
+);
+router.post("/login", validate(authValidation.login), authController.login);
+router.post("/logout", validate(authValidation.logout), authController.logout);
 router.post(
-  '/refresh-tokens',
+  "/refresh-tokens",
   validate(authValidation.refreshTokens),
   authController.refreshTokens
-)
+);
 router.post(
-  '/forgot-password',
+  "/forgot-password",
   validate(authValidation.forgotPassword),
-  authController.forgotPassword
-)
+  authController.forgotPasswordWithOtp
+);
 router.post(
-  '/reset-password',
+  "/reset-password",
   validate(authValidation.resetPassword),
-  authController.resetPassword
-)
+  authController.resetPasswordWithOtp
+);
 router.post(
-  '/send-verification-email',
+  "/send-verification-email",
   IsAuth(),
   authController.sendVerificationEmail
-)
+);
 router.post(
-  '/verify-email',
+  "/verify-email",
   validate(authValidation.verifyEmail),
   authController.verifyEmail
-)
+);
 
-module.exports = router
+module.exports = router;
 
 /**
  * @swagger

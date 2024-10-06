@@ -55,7 +55,11 @@ const UserSchema = new Schema(
     areaOfInterest: {
       type: Array,
       required: false
-    }
+    },
+    otp: {
+        type: String,
+        required: false
+    },
   },
   { timestamps: true }
 )

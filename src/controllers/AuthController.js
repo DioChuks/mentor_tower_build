@@ -36,14 +36,27 @@ const forgotPassword = catchAsync(async (req, res) => {
   res.status(StatusCodes.NO_CONTENT).send()
 })
 
+const forgotPasswordWithOtp = catchAsync(async (req, res) => {
+    const otp = await authService.generateAndSendOTP(
+    req.body.email
+  )
+  await emailService.sendResetPasswordEmailWithOtp(req.body.email, otp)
+  res.status(StatusCodes.NO_CONTENT).send()
+})
+
 const resetPassword = catchAsync(async (req, res) => {
   await authService.resetPassword(req.query['token'], req.body.password)
   res.status(StatusCodes.NO_CONTENT).send()
 })
 
+const resetPasswordWithOtp = catchAsync(async (req, res) => {
+  await authService.resetPasswordWithOTP(req.body.email, req.body.otp, req.body.password)
+  res.status(StatusCodes.NO_CONTENT).send()
+})
+
 const sendVerificationEmail = catchAsync(async (req, res) => {
   const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.body)
-  await emailService.sendVerificationEmail(
+  await emailService.sendVerificationEmailWithOtp(
     req.body.email,
     verifyEmailToken,
     req.body.name
@@ -62,7 +75,9 @@ module.exports = {
   logout,
   refreshTokens,
   forgotPassword,
+  forgotPasswordWithOtp,
   resetPassword,
+  resetPasswordWithOtp,
   sendVerificationEmail,
   verifyEmail
 }
