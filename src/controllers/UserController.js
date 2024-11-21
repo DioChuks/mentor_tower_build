@@ -18,64 +18,14 @@ const updateUserData = catchAsync(async (req, res) => {
     res.status(200).json(updatedUser)
 })
 
+// get users that are mentors
+const getMentors = catchAsync(async (req, res) => {
+    const mentors = await userService.getAllMentors();
+    res.status(200).json(mentors)
+})
+
 module.exports = {
     getUserProfile,
-    updateUserData
+    updateUserData,
+    getMentors
 }
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - name
- *         - email
- *         - password
- *       properties:
- *         id:
- *           type: string
- *           description: The auto-generated id of the user.
- *         name:
- *           type: string
- *           description: The name of the user.
- *         email:
- *           type: string
- *           description: The email of the user.
- *         isEmailVerified:
- *           type: boolean
- *           description: Indicates if the user's email is verified.
- *         phone:
- *           type: number
- *           description: The phone number of the user.
- *         password:
- *           type: string
- *           description: The password of the user.
- *         role:
- *           type: string
- *           description: The role of the user.
- *         dob:
- *           type: string
- *           format: date
- *           description: The date of birth of the user.
- *         bio:
- *           type: string
- *           description: A brief bio of the user.
- *         tier:
- *           type: string
- *           description: The tier of the user.
- *         areaOfInterest:
- *           type: array
- *           items:
- *             type: string
- *           description: The areas of interest of the user.
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: The date the user was created.
- *         updatedAt:
- *           type: string
- *           format: date-time
- *           description: The date the user was last updated.
- */

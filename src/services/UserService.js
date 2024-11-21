@@ -2,6 +2,7 @@ const { StatusCodes } = require('http-status-codes')
 const mongoose = require('mongoose')
 const User = require('../models/User')
 const ApiError = require('../errors/ApiError')
+const { UserRole } = require('../contracts/roles')
 
 // Function to register a new user
 const registerUser = async userBody => {
@@ -47,11 +48,18 @@ const deleteUserById = async userId => {
   return user
 }
 
+// Function to get all users that are mentors
+const getAllMentors = async () => {
+  const mentors = await User.find({ role: UserRole.Mentor })
+  return mentors
+}
+
 module.exports = {
   registerUser,
   queryUsers,
   getUserById,
   getUserByEmail,
   updateUserById,
-  deleteUserById
+  deleteUserById,
+  getAllMentors
 }

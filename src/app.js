@@ -9,6 +9,8 @@ const groupRouter = require('./routes/group')
 const jobRouter = require('./routes/job')
 const courseRouter = require('./routes/course')
 const userRouter = require('./routes/user')
+const eventRouter = require('./routes/EventRoutes')
+const mentorRouter = require('./routes/mentors')
 const config = require('./config/appConfig')
 const morgan = require('./log/morgan')
 const jwtStrategy = require('./middlewares/passport')
@@ -60,6 +62,8 @@ app.use('/v1/posts', postRouter)
 app.use('/v1/groups', groupRouter)
 app.use('/v1/jobs', jobRouter)
 app.use('/v1/courses', courseRouter)
+app.use('/v1/events', eventRouter)
+app.use('/v1/mentors', mentorRouter)
 
 const swaggerDefinition = {
   openapi: '3.1.0',
