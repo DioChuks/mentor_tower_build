@@ -1,4 +1,4 @@
-const { searchMentees, searchMentors } = require('../services/UserService');
+const { searchMentees, searchMentors, searchAllMentors } = require('../services/UserService');
 
 /**
  * Search mentees for a mentor
