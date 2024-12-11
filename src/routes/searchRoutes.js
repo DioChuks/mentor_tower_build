@@ -2,7 +2,8 @@ const express = require('express');
 const { searchMyMentees, searchMyMentors, httpSearchMentors } = require('../controllers/SearchController');
 const { GateRoute} = require('../middlewares/auth');
 
-const router = express.Router(GateRoute);
+const router = express.Router();
+router.use(GateRoute);
 
 /**
  * @route GET /v1/search/my-mentees
