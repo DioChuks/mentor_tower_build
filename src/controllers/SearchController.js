@@ -43,7 +43,7 @@ const searchMyMentors = async (req, res, next) => {
  * @param res
  * @param next
  */
-const searchMentors = async (req, res, next) => {
+const httpSearchMentors = async (req, res, next) => {
     try {
       const { query } = req.query;
       const mentors = await searchAllMentors(query);
@@ -53,4 +53,4 @@ const searchMentors = async (req, res, next) => {
     }
   };
 
-module.exports = { searchMyMentees, searchMyMentors, searchMentors };
+module.exports = { searchMyMentees, searchMyMentors, httpSearchMentors };

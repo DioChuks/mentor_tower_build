@@ -1,5 +1,5 @@
 const express = require('express');
-const { searchMyMentees, searchMyMentors, searchMentors } = require('../controllers/SearchController');
+const { searchMyMentees, searchMyMentors, httpSearchMentors } = require('../controllers/SearchController');
 const { GateRoute} = require('../middlewares/auth');
 
 const router = express.Router(GateRoute);
@@ -23,6 +23,6 @@ router.get('/my-mentors', searchMyMentors);
  * @desc Search all mentors
  * @access Protected
  */
-router.get('/mentors', searchMentors);
+router.get('/mentors', httpSearchMentors);
 
 module.exports = router;
