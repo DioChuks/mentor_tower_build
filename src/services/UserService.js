@@ -90,6 +90,22 @@ const searchMentors = async (menteeId, query) => {
   return mentors;
 };
 
+/**
+ * Search all mentors
+ * @param {String} query - The search query
+ * @returns {Array} - List of mentors
+ */
+const searchAllMentors = async (query) => {
+  const mentors = await User.find({
+    role: 'mentor', // Only users with a 'mentor' role
+    $or: [
+      { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
+      { email: { $regex: query, $options: 'i' } } // Case-insensitive search on email
+    ]
+  }).select('name email role');
+  return mentors;
+};
+
 module.exports = {
   registerUser,
   queryUsers,
@@ -99,5 +115,6 @@ module.exports = {
   deleteUserById,
   getAllMentors,
   searchMentees,
-  searchMentors
+  searchMentors,
+  searchAllMentors
 }

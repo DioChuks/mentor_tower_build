@@ -36,4 +36,21 @@ const searchMyMentors = async (req, res, next) => {
   }
 };
 
-module.exports = { searchMyMentees, searchMyMentors };
+/**
+ * Search all mentors
+ * @route GET /v1/search/mentors
+ * @param req
+ * @param res
+ * @param next
+ */
+const searchMentors = async (req, res, next) => {
+    try {
+      const { query } = req.query;
+      const mentors = await searchAllMentors(query);
+      res.status(200).json({ success: true, mentors });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+module.exports = { searchMyMentees, searchMyMentors, searchMentors };
