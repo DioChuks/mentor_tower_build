@@ -10,7 +10,7 @@ const { searchMentees, searchMentors, searchAllMentors } = require('../services/
 const searchMyMentees = async (req, res, next) => {
   try {
     const { query } = req.query;
-    const mentorId = req.user.id; // Assuming the authenticated user is the mentor
+    const mentorId = req.user._id; // Assuming the authenticated user is the mentor
     const mentees = await searchMentees(mentorId, query);
     res.status(200).json({ success: true, mentees });
   } catch (error) {
@@ -28,7 +28,7 @@ const searchMyMentees = async (req, res, next) => {
 const searchMyMentors = async (req, res, next) => {
   try {
     const { query } = req.query;
-    const menteeId = req.user.id; // Assuming the authenticated user is the mentee
+    const menteeId = req.user._id; // Assuming the authenticated user is the mentee
     const mentors = await searchMentors(menteeId, query);
     res.status(200).json({ success: true, mentors });
   } catch (error) {
