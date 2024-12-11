@@ -1,5 +1,4 @@
 const { StatusCodes } = require('http-status-codes')
-const mongoose = require('mongoose')
 const User = require('../models/User')
 const ApiError = require('../errors/ApiError')
 const { UserRole } = require('../contracts/roles')
@@ -62,7 +61,7 @@ const getAllMentors = async () => {
  */
 const searchMentees = async (mentorId, query) => {
   const mentees = await User.find({
-    role: 'mentee', // Ensure they are mentees
+    role: 'MENTEE', // Ensure they are mentees
     mentor: mentorId, // Only mentees assigned to this mentor
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
@@ -80,7 +79,7 @@ const searchMentees = async (mentorId, query) => {
  */
 const searchMentors = async (menteeId, query) => {
   const mentors = await User.find({
-    role: 'mentor', // Ensure they are mentors
+    role: 'MENTOR', // Ensure they are mentors
     mentees: menteeId, // Only mentors with this mentee
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
@@ -97,7 +96,7 @@ const searchMentors = async (menteeId, query) => {
  */
 const searchAllMentors = async (query) => {
   const mentors = await User.find({
-    role: 'mentor', // Only users with a 'mentor' role
+    role: 'MENTOR', // Only users with a 'mentor' role
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
       { email: { $regex: query, $options: 'i' } } // Case-insensitive search on email
