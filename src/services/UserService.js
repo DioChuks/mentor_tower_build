@@ -61,7 +61,7 @@ const getAllMentors = async () => {
  */
 const searchMentees = async (mentorId, query) => {
   const mentees = await User.find({
-    role: 'MENTEE', // Ensure they are mentees
+    role: UserRole.Mentee, // Ensure they are mentees
     mentor: mentorId, // Only mentees assigned to this mentor
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
@@ -79,7 +79,7 @@ const searchMentees = async (mentorId, query) => {
  */
 const searchMentors = async (menteeId, query) => {
   const mentors = await User.find({
-    role: 'MENTOR', // Ensure they are mentors
+    role: UserRole.Mentor, // Ensure they are mentors
     mentees: menteeId, // Only mentors with this mentee
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
@@ -96,7 +96,7 @@ const searchMentors = async (menteeId, query) => {
  */
 const searchAllMentors = async (query) => {
   const mentors = await User.find({
-    role: 'MENTOR', // Only users with a 'mentor' role
+    role: UserRole.Mentor, // Only users with a 'mentor' role
     $or: [
       { name: { $regex: query, $options: 'i' } }, // Case-insensitive search on name
       { email: { $regex: query, $options: 'i' } } // Case-insensitive search on email
